@@ -56,7 +56,7 @@ class Sprint3Stack(Stack):
         
         ibrahimMustafatopic = sns.Topic(self, "ibrahimMustafaSNSTOPIC")  
         ibrahimMustafatopic.apply_removal_policy(RemovalPolicy.DESTROY)
-        ibrahimMustafatopic.add_subscription(subscriptions.EmailSubscription("ibrahim.mustafa.skipq@gmail.com"))
+        ibrahimMustafatopic.add_subscription(subscriptions.EmailSubscription("owaissultan958@gmail.com"))
         
         
         

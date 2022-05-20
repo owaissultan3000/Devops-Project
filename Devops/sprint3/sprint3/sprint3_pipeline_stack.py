@@ -17,8 +17,8 @@ class WorkshopPipelineStack(Stack):
         
         # our repo from where the aws pipeline will get the stored code
         # https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.pipelines/CodePipelineSource.html
-        git_repo = pipelines.CodePipelineSource.git_hub("ibrahimmustafa2022skipq/Orion_Python", "main",
-        authentication = SecretValue.secrets_manager("pipeline_github-token_ibrahim"),
+        git_repo = pipelines.CodePipelineSource.git_hub("owaissultan3000/Devops-Project", "main",
+        authentication = SecretValue.secrets_manager("pipeline_github-token_owais"),
         trigger = aws_codepipeline_actions.GitHubTrigger("POLL")
         )
         
@@ -27,19 +27,19 @@ class WorkshopPipelineStack(Stack):
         #commands=["cd ibrahimMustafa/sprint3/", "pip install -r requirements.txt", "npm install -g aws-cdk", "cdk synth"],
         shellsynth=pipelines.ShellStep("Synth",
         input=git_repo,
-        commands=["cd ibrahimMustafa/sprint3/", "pip install -r requirements.txt", "npm install -g aws-cdk", "cdk synth"],
-        primary_output_directory  = "ibrahimMustafa/sprint3/cdk.out"
+        commands=["cd Devops/sprint3/", "pip install -r requirements.txt", "npm install -g aws-cdk", "cdk synth"],
+        primary_output_directory  = "Devops/sprint3/cdk.out"
             )
          
         # tests to perform on beta stage in pre condition   
         shellPreTest=pipelines.ShellStep("preTest",
         input=git_repo,
-        commands=["cd ibrahimMustafa/sprint3/", "pip install -r requirements.txt", "pip install pytest", "pytest"],
+        commands=["cd Devops/sprint3/", "pip install -r requirements.txt", "pip install pytest", "pytest"],
         
             )
 
         # Pipeline code will go here
-        ibrahimMustafa_Pipeline = pipelines.CodePipeline(self, "ibrahimMustafa_Pipeline",
+        ibrahimMustafa_Pipeline = pipelines.CodePipeline(self, "Devops_Pipeline",
             self_mutation=True,
             synth=shellsynth,
             )
@@ -55,7 +55,7 @@ class WorkshopPipelineStack(Stack):
         
         # adding beta testing stage to pipeline 
         # pre condition of shellPreTest
-        ibrahimMustafa_Pipeline.add_stage(beta_stage, pre=[shellPreTest] )
+        ibrahimMustafa_Pipeline.add_stage(beta_stage, pre=[shellPreTest], post=[pipelines.ManualApprovalStep("PromoteToProd")] )
         
         # adding production stage to pipeline 
         # post condition of manual approval step

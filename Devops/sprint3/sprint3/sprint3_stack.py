@@ -81,7 +81,7 @@ class Sprint3Stack(Stack):
     
         # initializing Events For Lambda To Invoke Lambda After Every Minute
         
-        lambdaSchedule=events_.Schedule.rate(Duration.minutes(1))
+        lambdaSchedule=events_.Schedule.rate(Duration.Minute(60))
     
         
         # initializing Targets To Get Destination Of Lambda

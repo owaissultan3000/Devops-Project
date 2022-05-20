@@ -67,7 +67,7 @@ class Sprint3Stack(Stack):
         
         #Calling Lambda Function and passing arguments by name,resource,handler,role
         
-        WHLamda_Function=self.createWHLambda("WhLambda","./resources","WHLamda.lambda_handler",lambda_role)
+        WHLamda_Function=self.createWHLambda("WhLambda","./resources","WHLambda.lambda_handler",lambda_role)
         
         #Giving access to lambda function to read and write in S3
         

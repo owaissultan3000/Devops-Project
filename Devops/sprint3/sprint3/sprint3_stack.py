@@ -67,16 +67,16 @@ class Sprint3Stack(Stack):
         
         #Calling Lambda Function and passing arguments by name,resource,handler,role
         
-        WHLamda_Function=self.createWHLambda("WhLambda","./resources","WHLambda.lambda_handler",lambda_role)
+        WhLambda_Function=self.createWHLambda("WhLambda","./resources","WhLambda.lambda_handler",lambda_role)
         
         #Giving access to lambda function to read and write in S3
         
-        ibrahimMustafaS3_bucket.grant_read_write(WHLamda_Function)
+        ibrahimMustafaS3_bucket.grant_read_write(WhLambda_Function)
     
     
         # Destroying Lambda Function
         
-        WHLamda_Function.apply_removal_policy(RemovalPolicy.DESTROY)
+        WhLambda_Function.apply_removal_policy(RemovalPolicy.DESTROY)
     
     
         # initializing Events For Lambda To Invoke Lambda After Every Minute
@@ -86,7 +86,7 @@ class Sprint3Stack(Stack):
         
         # initializing Targets To Get Destination Of Lambda
         
-        lamdaTarget=targets_.LambdaFunction(handler=WHLamda_Function)
+        lamdaTarget=targets_.LambdaFunction(handler=WhLambda_Function)
     
     
     
@@ -104,7 +104,7 @@ class Sprint3Stack(Stack):
         
         
         # get matrics of lambda function 
-        # dimensions={"FunctionName":WHLamda_Function.function_name}
+        # dimensions={"FunctionName":WhLambda_Function.function_name}
         
         # lambda_Duration_metric=cloudwatch_.Metric(
         #     metric_name="Duration",
@@ -119,28 +119,28 @@ class Sprint3Stack(Stack):
         #     dimensions_map=dimensions,
         #         )
         
-        # creating alarms on lambda duration using WHLamda_Function.metric_duration()
+        # creating alarms on lambda duration using WhLambda_Function.metric_duration()
         lambda_Duration_alarm=cloudwatch_.Alarm(self,
                 id="Alarm On lambda Duration",
                 evaluation_periods=1,
-                metric=WHLamda_Function.metric_duration(),#gets lambda duration metric
+                metric=WhLambda_Function.metric_duration(),#gets lambda duration metric
                 threshold=2.5,
                 comparison_operator=cloudwatch_.ComparisonOperator.GREATER_THAN_THRESHOLD,
                 datapoints_to_alarm=1,
                     )
         
-        # creating alarms on lambda Errors using WHLamda_Function.metric_errors()
+        # creating alarms on lambda Errors using WhLambda_Function.metric_errors()
         lambda_Errors_alarm=cloudwatch_.Alarm(self,
                 id="Alarm On lambda Errors",
                 evaluation_periods=1,
-                metric=WHLamda_Function.metric_errors(),# get lambda error metric
+                metric=WhLambda_Function.metric_errors(),# get lambda error metric
                 threshold=1.0,
                 comparison_operator=cloudwatch_.ComparisonOperator.LESS_THAN_THRESHOLD,
                 datapoints_to_alarm=1,
                     )
         
         #creating lambda version alias
-        version = WHLamda_Function.current_version
+        version = WhLambda_Function.current_version
         version1_alias = lambda_.Alias(self, "alias",
             alias_name="prod",
             version=version

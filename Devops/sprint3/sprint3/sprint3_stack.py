@@ -91,6 +91,7 @@ class Sprint3Stack(Stack):
     
     
         # Defining Rule For lambda Function To Invoke Periodically
+        #some changes occured
         
         rule=events_.Rule(self,"ibrahimMustafaWHLambdaRule",
         description="Creating a rule to invoke my lambda function periodically",
